@@ -52,5 +52,10 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PutMapping("/movies/rent/{id}")
+    public ResponseEntity<Void> rentMovie(@PathVariable Long id){
+        movieService.rentMovie(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 }
