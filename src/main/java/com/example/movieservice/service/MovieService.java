@@ -3,7 +3,6 @@ package com.example.movieservice.service;
 import com.example.movieservice.exeptions.MovieWrongDataException;
 import com.example.movieservice.model.Movie;
 import com.example.movieservice.repository.MovieRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.example.movieservice.exeptions.*;
 
@@ -69,14 +68,15 @@ public class MovieService {
         }
     }
 
-    public HttpStatus rentMovie(Long id){
+    public void rentMovie(Long id){
         Movie movie = getMovieById(id);
         if (!movie.getIs_available()){
-            return HttpStatus.NO_CONTENT;
+            throw new MovieNotAvailableException("Movie with that id is not available");
+        } else if (movie.getName() == null) {
+            throw new MovieNotFoundException("Movie with that id has not been found");
         } else {
             movie.setIs_available(false);
             movieRepository.save(movie);
-            return HttpStatus.OK;
         }
     }
 
